@@ -1,0 +1,7 @@
+:root {
+  --deleted-message-color: #f357571a;
+}
+
+.deleted-message {
+  background-color: var(--deleted-message-color) !important;
+}
