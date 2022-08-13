@@ -27,7 +27,7 @@ module.exports = class MessageLog extends Plugin {
 		};
 
 		const getHandler = (regModule) => {
-			return regModule._orderedActionHandlers.MESSAGE_DELETE.find(e => e.actionHandler.toString().includes('revealedMessageId'));
+			return regModule._actionHandlers._orderedActionHandlers.MESSAGE_DELETE.find(e => e.actionHandler.toString().includes('revealedMessageId'));
     };
 
 		const setup = () => {
@@ -37,16 +37,16 @@ module.exports = class MessageLog extends Plugin {
 				return setTimeout(setup, 1000);
 			}
 
-			index = regModule._orderedActionHandlers.MESSAGE_DELETE.indexOf(
+			index = regModule._actionHandlers._orderedActionHandlers.MESSAGE_DELETE.indexOf(
 				getHandler(regModule)
 			);
 
 			const originalActionHandler =
-				regModule._orderedActionHandlers.MESSAGE_DELETE[index].actionHandler;
+				regModule._actionHandlers._orderedActionHandlers.MESSAGE_DELETE[index].actionHandler;
 			const originalstoreDidChange =
-				regModule._orderedActionHandlers.MESSAGE_DELETE[index].storeDidChange;
+				regModule._actionHandlers._orderedActionHandlers.MESSAGE_DELETE[index].storeDidChange;
 
-			regModule._orderedActionHandlers.MESSAGE_DELETE[index] = {
+			regModule._actionHandlers._orderedActionHandlers.MESSAGE_DELETE[index] = {
 				actionHandler: (obj) => {
 					if (document.getElementById(`chat-messages-${obj.id}`)?.className.includes('ephemeral')) {
 						return originalActionHandler(obj);
@@ -78,6 +78,6 @@ module.exports = class MessageLog extends Plugin {
 			e.remove();
 		}
 
-		regModule._orderedActionHandlers.MESSAGE_DELETE[index] = original;
+		regModule._actionHandlers._orderedActionHandlers.MESSAGE_DELETE[index] = original;
   }
 }
